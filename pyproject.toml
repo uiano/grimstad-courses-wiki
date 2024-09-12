@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "grimstad-courses-wiki"
+version = "0.1.0"
+description = ""
+authors = ["Bendik Dyrli <skandix@protonmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+mkdocs-material = "^9.5.34"
+pymdown-extensions = "^10.9"
+mkdocs = "^1.6.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
