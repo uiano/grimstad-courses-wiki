@@ -7,7 +7,7 @@ Før en kommer i gang her så må en først ha funnet IP'en til sin virtuelle ma
 ## SSH Nøkkler
 Når en skal sette opp bruk av ssh nøkkler for å logge seg på den virtuelle maskinen, så må en først og fremst passe på at en er logget inn på den virtuelle maskinen.
 
-Før en begynner å lage ssh nøkklene så må en sørge for at ``.ssh`` mappen eksisterer. Dette kan en gjøre ved å skrive ``mkdir .ssh``, om den alt eksisterer så vil kommando'en gi output om at den klarer ikke å lage mappen, for den eksisterer alt. Om den ikke finnes så vil den bli laget, uten å gi noe output.
+Før en begynner å lage ssh nøkklene så må en sørge for at ``.ssh`` mappen eksisterer. Dette kan en gjøre ved å skrive ``mkdir -m 0700 .ssh``, om den alt eksisterer så vil kommando'en gi output om at den klarer ikke å lage mappen, for den eksisterer alt. Om den ikke finnes så vil den bli laget, uten å gi noe output. En må bruke ``-m 0700`` for å passe på at .ssh mappen for riktigte rettigheter.
 
 Her fra så vil en bruke kommando'en ``ssh-keygen`` denne kommandoen vil da lage et nøkkelpar en vil bruke til logge seg på den virtuelle maskinen med. Dette betyr da at en slipper å skrive passordet sitt.
 
@@ -45,7 +45,7 @@ Når en åpner Windows terminal, så vil den alltid åpne seg opp i hjemmemappen
 
 ![](./assets/2024-09-26-11-11-15.png)
 
-Så må en sjekke at mappen med navn ``.ssh`` eksisterer, dette kan en gjøre ved å skrive ``ls .ssh``. I mitt tilfelle så finnes .ssh mappen, så da trenger jeg ikke å lage den selv. Skulle .ssh ikke finnes så kan en lage denne med ``mkdir -m 0700 .ssh``. En må bruke ``-m 0700`` for å passe på at .ssh mappen for riktigte rettigheter.
+Så må en sjekke at mappen med navn ``.ssh`` eksisterer, dette kan en gjøre ved å skrive ``ls .ssh``. I mitt tilfelle så finnes .ssh mappen, så da trenger jeg ikke å lage den selv. Skulle .ssh ikke finnes så kan en lage denne med ``mkdir .ssh``.
 
 ![](./assets/2024-09-26-11-13-46.png)
 Så for å flytte ned ikt100 ssh nøkkelen fra den virtuelle maskinen, så kan en anvende en kommando som heter scp, for å hente ned filen og plassere den i .ssh mappen. SCP står for Secure File Copy.
