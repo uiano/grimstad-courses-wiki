@@ -44,7 +44,7 @@ Når en åpner Windows terminal, så vil den alltid åpne seg opp i hjemmemappen
 
 ![](./assets/2024-09-26-11-11-15.png)
 
-Så må en sjekke at mappen med navn ``.ssh`` eksisterer, dette kan en gjøre ved å skrive ``ls .ssh``. I mitt tilfelle så finnes .ssh mappen, så da trenger jeg ikke å lage den selv. Skulle .ssh ikke finnes så kan en lage denne med ``mkdir .ssh``
+Så må en sjekke at mappen med navn ``.ssh`` eksisterer, dette kan en gjøre ved å skrive ``ls .ssh``. I mitt tilfelle så finnes .ssh mappen, så da trenger jeg ikke å lage den selv. Skulle .ssh ikke finnes så kan en lage denne med ``mkdir -m 0700 .ssh``. En må bruke ``-m 0700`` for å passe på at .ssh mappen for riktigte rettigheter.
 
 ![](./assets/2024-09-26-11-13-46.png)
 Så for å flytte ned ikt100 ssh nøkkelen fra den virtuelle maskinen, så kan en anvende en kommando som heter scp, for å hente ned filen og plassere den i .ssh mappen. SCP står for Secure File Copy.
