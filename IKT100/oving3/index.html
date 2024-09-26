@@ -1,0 +1,726 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../overleaf/">
+      
+      
+        <link rel="next" href="../skjermbilder/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.34">
+    
+    
+      
+        <title>Oppsett av SSH nøkkler og Wireshark SSH Remote Capture - grimstad-courses-wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.35f28582.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#oppsett-av-ssh-nkkler-og-wireshark-ssh-remote-capture" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="grimstad-courses-wiki" class="md-header__button md-logo" aria-label="grimstad-courses-wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            grimstad-courses-wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Oppsett av SSH nøkkler og Wireshark SSH Remote Capture
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/uiano/grimstad-courses-wiki" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    grimstad-courses-wiki
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="grimstad-courses-wiki" class="md-nav__button md-logo" aria-label="grimstad-courses-wiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    grimstad-courses-wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/uiano/grimstad-courses-wiki" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    grimstad-courses-wiki
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hvordan koble seg på virtuell maskin
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    IKT100
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            IKT100
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../innleveringer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Innleveringer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overleaf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hvordan kan jeg lage en kopi av Overleaf malen.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Oppsett av SSH nøkkler og Wireshark SSH Remote Capture
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Oppsett av SSH nøkkler og Wireshark SSH Remote Capture
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ssh-nkkler" class="md-nav__link">
+    <span class="md-ellipsis">
+      SSH Nøkkler
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SSH Nøkkler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#macos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Macos
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passordls-sudo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Passordløs Sudo
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wireshark-ssh-remote-caputure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wireshark SSH Remote Caputure
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../skjermbilder/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Trenger jeg å legge med skjermbilder i rapporten ?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ssh-nkkler" class="md-nav__link">
+    <span class="md-ellipsis">
+      SSH Nøkkler
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SSH Nøkkler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#macos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Macos
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passordls-sudo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Passordløs Sudo
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wireshark-ssh-remote-caputure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wireshark SSH Remote Caputure
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="oppsett-av-ssh-nkkler-og-wireshark-ssh-remote-capture">Oppsett av SSH nøkkler og Wireshark SSH Remote Capture<a class="headerlink" href="#oppsett-av-ssh-nkkler-og-wireshark-ssh-remote-capture" title="Permanent link">#</a></h1>
+<blockquote>
+<p>Denne guiden er ment for å gjøre klar den virtuelle maskinen til øving 3 i IKT100.</p>
+</blockquote>
+<p>Før en kommer i gang her så må en først ha funnet IP'en til sin virtuelle maskin, dette vil en finne mer informasjon om <a href="../../vm/">her</a></p>
+<h2 id="ssh-nkkler">SSH Nøkkler<a class="headerlink" href="#ssh-nkkler" title="Permanent link">#</a></h2>
+<p>Når en skal sette opp bruk av ssh nøkkler for å logge seg på den virtuelle maskinen, så må en først og fremst passe på at en er logget inn på den virtuelle maskinen.</p>
+<p>Før en begynner å lage ssh nøkklene så må en sørge for at <code>.ssh</code> mappen eksisterer. Dette kan en gjøre ved å skrive <code>mkdir -m 0700 .ssh</code>, om den alt eksisterer så vil kommando'en gi output om at den klarer ikke å lage mappen, for den eksisterer alt. Om den ikke finnes så vil den bli laget, uten å gi noe output. En må bruke <code>-m 0700</code> for å passe på at .ssh mappen for riktigte rettigheter.</p>
+<p>Her fra så vil en bruke kommando'en <code>ssh-keygen</code> denne kommandoen vil da lage et nøkkelpar en vil bruke til logge seg på den virtuelle maskinen med. Dette betyr da at en slipper å skrive passordet sitt.</p>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>I et ssh nøkkelpar så består det av en private nøkkel, og en public nøkkel. Den private nøkkelen skal en aldri dele med andre enn seg selv. Mens public nøkkelen kan en dele med hvem en vil.</p>
+</details>
+<p>Når en skal begynne å lage ssh nøkkelparet, så skal en bruke denne kommandoen<code>ssh-keygen -t ed25519 -f .ssh/ikt100</code>.
+Det denne kommandoen gjør er at den lager et nøkkelpar med kryptering ed25519, og legger privat- og public nøkkelen i .ssh mappen og gir den navnet ikt100.</p>
+<p><img alt="" src="../assets/2024-09-25-15-06-02.png" />
+Når en kjører kommandoen vil en få spørsmål om å oppgi en passphrase, dette er ment for å gjøre ssh nøkkelen sikkrere. For skulle den komme på avveie så kan hvem som helst bruke den til å logge inn på alle serveren hvor dens sin public nøkkel blir brukt. Det er ikke et krav om å ha passphrase, så her trenger en ikke å skrive inn noe og kan trykke seg forbi denne.</p>
+<p>Nå kan en sjekke .ssh mappen med <code>ls .ssh</code> for å se at det har nå blitt laget to filer.</p>
+<ul>
+<li>ikt100<ul>
+<li>private nøkkel</li>
+</ul>
+</li>
+<li>ikt100.pub<ul>
+<li>public nøkkel</li>
+</ul>
+</li>
+</ul>
+<p>privat nøkkelen skal en aldri dele med andre enn seg selv, mens da public nøkkelen kan en gi til alle hvor en har behov for å logge seg på de/dems sin linux maskin.</p>
+<p>Så nå for å gi laptopen din tilgang til å koble seg på den virtuelle maskinen så må du legge public nøkkelen i en fil som heter authorized_keys på den virtuelle maskinen, denne filen skal ligge i .ssh mappen. Først må en passe på at en står i .ssh mappen. Så kan en kjøre denne kommandoen for å legge ikt100 public nøkkelen ligger i authorized_keys  <code>cat ikt100.pub &gt;&gt; authorized_keys</code></p>
+<p><img alt="image" src="https://github.com/user-attachments/assets/24d0b5ef-b2e3-440e-a8e0-95459c82aab4" /></p>
+<p>Nå mangler en bare å legge privat nøkkelen inn på maskinen sin. Dette er da filen med navn ikt100</p>
+<h3 id="windows">Windows<a class="headerlink" href="#windows" title="Permanent link">#</a></h3>
+<p>En begynner med å trykke på Windows-tasten, og skriver inn Terminal og trykker inn på appen som heter Terminal.</p>
+<p><img alt="" src="../assets/2024-09-26-11-08-51.png" /></p>
+<p>Når en åpner Windows terminal, så vil den alltid åpne seg opp i hjemmemappen til brukeren.</p>
+<p><img alt="" src="../assets/2024-09-26-11-11-15.png" /></p>
+<p>Så må en sjekke at mappen med navn <code>.ssh</code> eksisterer, dette kan en gjøre ved å skrive <code>ls .ssh</code>. I mitt tilfelle så finnes .ssh mappen, så da trenger jeg ikke å lage den selv. Skulle .ssh ikke finnes så kan en lage denne med <code>mkdir .ssh</code>.</p>
+<p><img alt="" src="../assets/2024-09-26-11-13-46.png" />
+Så for å flytte ned ikt100 ssh nøkkelen fra den virtuelle maskinen, så kan en anvende en kommando som heter scp, for å hente ned filen og plassere den i .ssh mappen. SCP står for Secure File Copy.</p>
+<p><code>scp bendid13@10.225.149.214:.ssh/ikt100 .ssh/ikt100</code></p>
+<p><img alt="" src="../assets/2024-09-26-14-18-56.png" /></p>
+<p>Nå kan kan en prøve å logge seg inn på den virtuelle maskinen ved hjelp av ssh nøkkelen. <code>ssh bendid13@10.225.149.214 -i .ssh/ikt100</code>
+Kommandoen en bruker for å logge seg på den virtuell maskinen er ganske identiskt, men her så har jeg med et ekstra paramter <code>-i</code> betyr identity_file.  Her legger jeg med stien til hvor ikt100 privat nøkkelen ligger.</p>
+<p><img alt="" src="../assets/2024-09-26-14-25-19.png" /></p>
+<p>Her kan en nå se at jeg kan logge meg inn på den virtuelle maskinen uten å måtte skrive passordet :D.</p>
+<h3 id="macos">Macos<a class="headerlink" href="#macos" title="Permanent link">#</a></h3>
+<p>Her så starter en med å trykke command+space og da vil ene få opp spotlight, her kan en søke etter terminal også trykke seg inn på den som heter Terminal.app
+<img alt="" src="../assets/2024-09-26-14-53-53.png" /></p>
+<p>Terminalen vil se ut som dette.
+<img alt="" src="../assets/2024-09-26-14-54-50.png" /></p>
+<p>Så kan en begynne med å sjekke om .ssh mappen eksisterer, om den ikke eksisterer så må en lage den med <code>mkdir .ssh</code>
+<img alt="" src="../assets/2024-09-26-14-56-40.png" /></p>
+<p>Etter dette kan jeg bruke SCP(secure file copy) kommandoen til å hente ned ikt100 nøkkelen fra den virtuelle maskinen og ned til din maskin.
+<img alt="" src="../assets/2024-09-26-15-06-37.png" /></p>
+<p>Så etter dette kan en prøve å logge seg på den virtuelle maskinen og skal da kunne logge seg uten å måtte skrive passord.
+<img alt="" src="../assets/2024-09-26-15-21-26.png" /></p>
+<h2 id="passordls-sudo">Passordløs Sudo<a class="headerlink" href="#passordls-sudo" title="Permanent link">#</a></h2>
+<p>Passordløs sudo, er at en skal slippe å måtte skrive passordet på nytt når en skal ta i bruk kommando'er som trenger administrator rettigheter.</p>
+<details class="note" open="open">
+<summary>Note</summary>
+<p>visudo er en kommando som gjør det enkelt og trygt å redigere sudoers filen/filene, skulle en gjøre noe feil så vil visudo si ifra om at det en har skrevet ikke er rett.</p>
+</details>
+<p>For å sette opp dette så må en bruke kommandoen <code>sudo visudo -f /etc/sudoers.d/bendid13</code>. Husk å bytt ut bendid13 med ditt eget uia brukernavn. Når en har kjørt denne kommandoen så vil en bli møtt med et vindu, hvor en kan skrive inn tekst. Her skal en skrive <code>bendid13 ALL=(ALL) NOPASSWD:ALL</code>, hvor en sier at brukeren bendid13 skal ha tilgang til alt, men at den skal slippe å måtte skrive passord når en skal bruke sudo.</p>
+<p><img alt="" src="../assets/2024-09-26-13-12-59.png" /></p>
+<p>Så kan en lagre og gå ut av programmet, ved å trykke Ctrl + X så vil en få beskjed om å lagre filen. Her skal en bare trykke <code>y</code> også får en spørsmål om hvor en skal lage filen, her trenger en ikke å endre noe og kan bare trykke <code>enter</code>.</p>
+<p><img alt="" src="../assets/2024-09-26-13-18-43.png" /></p>
+<p>Nå kan en verifisere at det fungerer som det skal så nå kan en prøve med å skrive <code>sudo -i</code> og da skal en bli root brukeren uten å måtte skrive inn passordet. 
+<img alt="" src="../assets/2024-09-26-13-21-36.png" /></p>
+<p>Her ble jeg logget inn som root uten å måtte skrive passord, og da funker det som det skal :D. En kan trykke Ctrl+d eller skrive exit for å logge ut som root.</p>
+<h2 id="wireshark-ssh-remote-caputure">Wireshark SSH Remote Caputure<a class="headerlink" href="#wireshark-ssh-remote-caputure" title="Permanent link">#</a></h2>
+<p>For å begynne å sette opp Wireshark SSH Remote Capture, så må en sørge for å ha installert Wireshark, https://www.wireshark.org/download.html</p>
+<p><img alt="" src="../assets/2024-09-25-16-05-33.png" /></p>
+<details class="warning" open="open">
+<summary>Warning</summary>
+<p>På windows så er det viktigt at en huker av på komponenten, <code>Sshdump, Ciscodump and Wifidump</code> under installasjonen av Wireshark. Dette er ikke nødvendigt på macos eller linux.</p>
+</details>
+<p>Etter en har installert Wireshark, så kan en starte opp programmet og det vil se slikt ut når en åpner det.</p>
+<p><img alt="" src="../assets/2024-09-25-16-09-43.png" /></p>
+<p>Så for å sette opp SSH Remote Capture, så trykker en på tannhjulet til venstre for <code>SSH remote capture: sshdump</code> som er markert på skjermbildet (1).</p>
+<p>Herfra vil en bli møtt med en nytt vindu, hvor en da må fylle inn ip addressen til sin virtuelle maskin inn i feltet <code>Remote SSH server address</code></p>
+<p><img alt="" src="../assets/2024-09-25-16-21-36.png" /></p>
+<p>Så må en trykke seg over til <code>Authentication</code> fanen</p>
+<p><img alt="" src="../assets/2024-09-25-16-23-51.png" /></p>
+<p>Her må en fylle inn ditt uia brukernavn under <code>Remote SSH server username</code> og så legge inn stien til ssh nøkkelen under <code>Path to SSH private key</code>, en vil finne den på disse stiene.</p>
+<ul>
+<li>Linux<ul>
+<li><code>/home/bendid13/.ssh/ikt100</code></li>
+</ul>
+</li>
+<li>Macos<ul>
+<li><code>/Users/bendid13/.ssh/ikt100</code></li>
+</ul>
+</li>
+<li>Windows<ul>
+<li><code>C:\Users\bendid13\.ssh\ikt100</code></li>
+</ul>
+</li>
+</ul>
+<p>Så må en videre til <code>Capture</code> fanen.
+Her må en passe at <code>Remote capture command selection</code> er satt til tcpdump og,<code>Gain capture privilege on the remote machine</code> er satt til sudo.
+ Så er det bare å trykke Save.</p>
+<p><img alt="" src="../assets/2024-09-25-16-50-19.png" /></p>
+<p>Så nå kan en bare trykke på navnet <code>SSH Remote Capture: sshdump</code></p>
+<p><img alt="" src="../assets/2024-09-25-16-52-07.png" /></p>
+<p>Da vil det komme opp et nytt vindu som viser trafikken som foregår på den virtuelle maskinen.
+<img alt="" src="../assets/2024-09-26-15-24-11.png" /></p>
+<p>Skulle det være at noe ikke fungerer som det skal så ta kontakt på lab eller på discord :)</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      
+    
+  </body>
+</html>
