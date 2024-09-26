@@ -31,7 +31,8 @@ privat nøkkelen skal en aldri dele med andre enn seg selv, mens da public nøkk
 
 Så nå for å gi laptopen din tilgang til å koble seg på den virtuelle maskinen så må du legge public nøkkelen i en fil som heter authorized_keys på den virtuelle maskinen, denne filen skal ligge i .ssh mappen. Først må en passe på at en står i .ssh mappen. Så kan en kjøre denne kommandoen for å legge ikt100 public nøkkelen ligger i authorized_keys  ``cat ikt100.pub >> authorized_keys``
 
-![](./assets/2024-09-25-15-43-55.png)
+![image](https://github.com/user-attachments/assets/24d0b5ef-b2e3-440e-a8e0-95459c82aab4)
+
 
 Nå mangler en bare å legge privat nøkkelen inn på maskinen sin. Dette er da filen med navn ikt100
 
