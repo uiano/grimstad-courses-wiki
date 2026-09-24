@@ -6,4 +6,9 @@
   - https://www.mkdocs.org/user-guide/
 
 
+## Usage
+- uv sync
+- uv run mkdocs serve
+
+
 [![pages-build-deployment](https://github.com/uiano/grimstad-courses-wiki/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/uiano/grimstad-courses-wiki/actions/workflows/pages/pages-build-deployment)
